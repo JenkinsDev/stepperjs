@@ -1,6 +1,7 @@
 (function() {
   'use strict';
   
+  // Any variable starting with a '$' means that it must be an instance of jQuery.
   function Stepper($steps, $nextButton, $prevButton, finishedCallback) {
     this.$steps = $steps;
     this.$nextButton = $nextButton;
@@ -8,7 +9,7 @@
     this.finishedCallback = finishedCallback;
     
     if (this.$steps.length === 0) {
-      throw new Error("The steps parameter must contain at least one element!");
+      throw new Error("The $steps parameter must contain at least one element!");
     }
     
     this.$currentStep = this.$steps.filter('[data-step="1"]');
@@ -45,12 +46,10 @@
   }
   
   Stepper.prototype.changeToNewStep = function($newStep) {
-    var stepperInstance = this;
-    
     this.$currentStep.fadeOut(function() {
       $newStep.fadeIn();
-      stepperInstance.$currentStep = $newStep;
-    });
+      this.$currentStep = $newStep;
+    }.bind(this));
   }
   
   Stepper.prototype.clickedNextButton = function(e) {
